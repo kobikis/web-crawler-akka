@@ -16,7 +16,7 @@ import scala.concurrent.{Await, Future}
 
 object Main extends App {
 
-  implicit val system = ActorSystem("crawler")
+  implicit val system = ActorSystem("main")
   implicit val materializer = ActorMaterializer()
 
   import system.dispatcher
