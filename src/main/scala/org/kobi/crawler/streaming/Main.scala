@@ -29,7 +29,6 @@ object Main extends App {
   val subscriber = ActorSubscriber[Url](consumerRef)
 
   val basrUrl = "http://localhost:8080"
-  val visited: mutable.Set[Url] = mutable.Set()
   val source = Source.fromPublisher(publisher)
 
 
