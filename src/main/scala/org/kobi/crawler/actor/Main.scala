@@ -18,7 +18,7 @@ object Main extends App{
 
   time {
     master ! Start(new Url("http://localhost:8080/"))
-    Await.result(system.whenTerminated, 100 minutes)
+    Await.result(system.whenTerminated, 10 minutes)
   }
 
   def time[R](block: => R): R = {

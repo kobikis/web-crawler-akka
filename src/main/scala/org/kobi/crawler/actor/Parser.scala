@@ -1,5 +1,7 @@
 package org.kobi.crawler.actor
 
+import java.util.concurrent.CountDownLatch
+
 import akka.actor.{Actor, ActorRef}
 import org.jsoup.Jsoup
 
@@ -7,17 +9,18 @@ import scala.collection.JavaConverters._
 import scala.language.postfixOps
 
 
-class Parser(manager: ActorRef) extends Actor {
+class Parser(manager: ActorRef, counter: CountDownLatch) extends Actor {
   val baseUrl = "http://localhost:8080"
 
   def receive: Receive = {
     case Parse(url) =>
-//      println("Parsing " + url)
-
-      val links = getLinks(url)
-      if(links.size == 1){
+//            println("Parsing " + url)
+      if(counter.getCount == 0) {
         sender() ! Stop
-      }else{
+      }
+      else {
+        val links = getLinks(url)
+        links.foreach(url => counter.countDown())
         sender() ! links
       }
   }
