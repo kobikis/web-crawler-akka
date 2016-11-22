@@ -16,15 +16,8 @@ class Master(system: ActorSystem) extends Actor {
 
   var visitedLinks: ConcurrentHashMap[Url, Boolean] = new ConcurrentHashMap[Url, Boolean]()
   var counter: CountDownLatch = new CountDownLatch((math.pow(2,17) - 1)##)
-//  val parser = system.actorOf(Props(new Parser(self)))
 
-  //    val parser = system.actorOf(Props(new Parser(self))
-  //      .withRouter(new RoundRobinPool(8)))
-  //      .withDispatcher("my-dispacher"), "parserActors")
-//
-//  val parser = system.actorOf(Props(new Parser(self)).withDispatcher("my-thread-pool-dispatcher"))
-
-  val parser = system.actorOf(Props(new Parser(self, counter)).withRouter(new RoundRobinPool(4)).withDispatcher("my-dispatcher"))
+  val parser = system.actorOf(Props(new Parser(self, counter)).withRouter(new RoundRobinPool(4)).withDispatcher("defaultDispatcher"))
 
   override def receive: Receive = {
     case Start(url : Url) =>
@@ -40,6 +33,7 @@ class Master(system: ActorSystem) extends Actor {
       }
 
     case Stop =>
-        system.terminate()
+//      println("counter = " + counter.getCount)
+      system.terminate()
   }
 }

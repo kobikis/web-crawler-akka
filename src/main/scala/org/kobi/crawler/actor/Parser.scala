@@ -14,7 +14,7 @@ class Parser(manager: ActorRef, counter: CountDownLatch) extends Actor {
 
   def receive: Receive = {
     case Parse(url) =>
-//            println("Parsing " + url)
+//      println("Parsing " + url)
       if(counter.getCount == 0) {
         sender() ! Stop
       }

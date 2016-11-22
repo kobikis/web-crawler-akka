@@ -2,6 +2,7 @@ package org.kobi.crawler.actor
 
 import akka.actor.{ActorSystem, Props}
 import akka.routing.RoundRobinPool
+import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -13,8 +14,10 @@ import scala.language.postfixOps
   * @since 12.0.1
   */
 object Main extends App{
-  val system = ActorSystem()
-  val master = system.actorOf(Props(new Master(system)).withRouter(new RoundRobinPool(4)).withDispatcher("my-dispatcher"))
+  val system = ActorSystem.create("balancing-pool", ConfigFactory.load()
+    .getConfig("MyDispatcherExample"))
+
+  val master = system.actorOf(Props(new Master(system)).withRouter(new RoundRobinPool(4)).withDispatcher("defaultDispatcher"))
 
   time {
     master ! Start(new Url("http://localhost:8080/"))
