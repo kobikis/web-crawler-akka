@@ -1,7 +1,6 @@
 package org.kobi.crawler.actor
 
 import java.util.concurrent.{ConcurrentHashMap, CountDownLatch}
-import java.util.concurrent.atomic.AtomicInteger
 
 import akka.actor.{Actor, ActorSystem, Props}
 import akka.routing.RoundRobinPool
