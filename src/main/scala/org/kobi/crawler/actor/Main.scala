@@ -14,7 +14,7 @@ import scala.language.postfixOps
   * @since 12.0.1
   */
 object Main extends App{
-  val system = ActorSystem.create("balancing-pool", ConfigFactory.load()
+  val system = ActorSystem.create("mypool", ConfigFactory.load()
     .getConfig("MyDispatcherExample"))
 
   val master = system.actorOf(Props(new Master(system)).withRouter(new RoundRobinPool(4)).withDispatcher("defaultDispatcher"))
